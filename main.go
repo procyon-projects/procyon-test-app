@@ -1,8 +1,10 @@
 package main
 
-import "github.com/Rollcomp/procyon"
+import (
+	"github.com/Rollcomp/procyon"
+)
 
-func main()  {
+func main() {
 	myApp := procyon.NewProcyonApplication()
 	myApp.Run()
 }
