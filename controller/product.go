@@ -1,12 +1,18 @@
 package controller
 
-import web "github.com/Rollcomp/procyon-web"
+import (
+	"github.com/Rollcomp/procyon-test-app/service"
+	web "github.com/Rollcomp/procyon-web"
+)
 
 type ProductController struct {
+	productService *service.ProductService
 }
 
-func NewProductController() *ProductController {
-	return &ProductController{}
+func NewProductController(productService *service.ProductService) *ProductController {
+	return &ProductController{
+		productService,
+	}
 }
 
 func (controller *ProductController) RegisterHandlers(registry web.HandlerInfoRegistry) {
@@ -25,8 +31,8 @@ func (controller *ProductController) RegisterHandlers(registry web.HandlerInfoRe
 	)
 }
 
-func (controller *ProductController) GetAllProducts() interface{} {
-	return nil
+func (controller *ProductController) GetAllProducts() {
+
 }
 
 func (controller *ProductController) GetProductById() interface{} {
