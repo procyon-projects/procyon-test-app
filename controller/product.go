@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"github.com/Rollcomp/procyon-test-app/service"
-	web "github.com/Rollcomp/procyon-web"
+	"github.com/procyon-projects/procyon-test-app/service"
+	web "github.com/procyon-projects/procyon-web"
 )
 
 type ProductController struct {

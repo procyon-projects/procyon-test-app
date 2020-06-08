@@ -1,10 +1,10 @@
 package config
 
 import (
-	core "github.com/Rollcomp/procyon-core"
-	"github.com/Rollcomp/procyon-test-app/controller"
-	"github.com/Rollcomp/procyon-test-app/repository"
-	"github.com/Rollcomp/procyon-test-app/service"
+	core "github.com/procyon-projects/procyon-core"
+	"github.com/procyon-projects/procyon-test-app/controller"
+	"github.com/procyon-projects/procyon-test-app/repository"
+	"github.com/procyon-projects/procyon-test-app/service"
 )
 
 func init() {
