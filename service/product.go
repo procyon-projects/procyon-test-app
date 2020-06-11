@@ -13,18 +13,18 @@ type ProductService struct {
 	txContext         tx.TransactionalContext
 }
 
-func NewProductService(productRepository *repository.ProductRepository, transactionalContext tx.TransactionalContext) *ProductService {
-	return &ProductService{
+func NewProductService(productRepository *repository.ProductRepository, transactionalContext tx.TransactionalContext) ProductService {
+	return ProductService{
 		productRepository,
 		transactionalContext,
 	}
 }
 
-func (service *ProductService) GetServiceMetadata() context.ServiceMetadata {
+func (service ProductService) GetServiceMetadata() context.ServiceMetadata {
 	return context.ServiceMetadata{}
 }
 
-func (service *ProductService) FindAll() ([]*model.Product, error) {
+func (service ProductService) FindAll() ([]*model.Product, error) {
 	var products []*model.Product
 	service.txContext.Block(func() {
 		products = service.productRepository.FindAll()
@@ -32,7 +32,7 @@ func (service *ProductService) FindAll() ([]*model.Product, error) {
 	return products, nil
 }
 
-func (service *ProductService) FindById(id int) (*model.Product, error) {
+func (service ProductService) FindById(id int) (*model.Product, error) {
 	var serviceErr error
 	var product *model.Product
 	service.txContext.Block(func() {
@@ -45,7 +45,7 @@ func (service *ProductService) FindById(id int) (*model.Product, error) {
 	return product, serviceErr
 }
 
-func (service *ProductService) Save(product *model.Product) (*model.Product, error) {
+func (service ProductService) Save(product *model.Product) (*model.Product, error) {
 	var savedProduct *model.Product
 	service.txContext.Block(func() {
 		savedProduct = service.productRepository.Save(product)
@@ -53,7 +53,7 @@ func (service *ProductService) Save(product *model.Product) (*model.Product, err
 	return savedProduct, nil
 }
 
-func (service *ProductService) Update(id int, updatedProduct *model.Product) (*model.Product, error) {
+func (service ProductService) Update(id int, updatedProduct *model.Product) (*model.Product, error) {
 	var serviceErr error
 	var result *model.Product
 	service.txContext.Block(func() {
@@ -67,7 +67,7 @@ func (service *ProductService) Update(id int, updatedProduct *model.Product) (*m
 	return result, serviceErr
 }
 
-func (service *ProductService) DeleteById(id int) error {
+func (service ProductService) DeleteById(id int) error {
 	var serviceErr error
 	service.txContext.Block(func() {
 		product := service.productRepository.FindById(id)

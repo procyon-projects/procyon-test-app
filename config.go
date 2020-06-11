@@ -1,4 +1,4 @@
-package config
+package main
 
 import (
 	core "github.com/procyon-projects/procyon-core"
