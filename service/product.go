@@ -9,15 +9,12 @@ import (
 )
 
 type ProductService struct {
-	productRepository *repository.ProductRepository
-	txContext         tx.TransactionalContext
+	ProductRepository *repository.ProductRepository `inject:""`
+	TxContext         tx.TransactionalContext       `inject:""`
 }
 
-func NewProductService(productRepository *repository.ProductRepository, transactionalContext tx.TransactionalContext) ProductService {
-	return ProductService{
-		productRepository,
-		transactionalContext,
-	}
+func NewProductService() *ProductService {
+	return &ProductService{}
 }
 
 func (service ProductService) GetServiceMetadata() context.ServiceMetadata {
@@ -26,8 +23,8 @@ func (service ProductService) GetServiceMetadata() context.ServiceMetadata {
 
 func (service ProductService) FindAll() ([]*model.Product, error) {
 	var products []*model.Product
-	service.txContext.Block(func() {
-		products = service.productRepository.FindAll()
+	service.TxContext.Block(func() {
+		products = service.ProductRepository.FindAll()
 	})
 	return products, nil
 }
@@ -35,8 +32,8 @@ func (service ProductService) FindAll() ([]*model.Product, error) {
 func (service ProductService) FindById(id int) (*model.Product, error) {
 	var serviceErr error
 	var product *model.Product
-	service.txContext.Block(func() {
-		product = service.productRepository.FindById(id)
+	service.TxContext.Block(func() {
+		product = service.ProductRepository.FindById(id)
 		if product == nil {
 			serviceErr = err.NewProductNotFoundError(id)
 			return
@@ -47,8 +44,8 @@ func (service ProductService) FindById(id int) (*model.Product, error) {
 
 func (service ProductService) Save(product *model.Product) (*model.Product, error) {
 	var savedProduct *model.Product
-	service.txContext.Block(func() {
-		savedProduct = service.productRepository.Save(product)
+	service.TxContext.Block(func() {
+		savedProduct = service.ProductRepository.Save(product)
 	})
 	return savedProduct, nil
 }
@@ -56,26 +53,26 @@ func (service ProductService) Save(product *model.Product) (*model.Product, erro
 func (service ProductService) Update(id int, updatedProduct *model.Product) (*model.Product, error) {
 	var serviceErr error
 	var result *model.Product
-	service.txContext.Block(func() {
-		product := service.productRepository.FindById(id)
+	service.TxContext.Block(func() {
+		product := service.ProductRepository.FindById(id)
 		if product == nil {
 			serviceErr = err.NewProductNotFoundError(id)
 			return
 		}
-		result = service.productRepository.Update(updatedProduct)
+		result = service.ProductRepository.Update(updatedProduct)
 	})
 	return result, serviceErr
 }
 
 func (service ProductService) DeleteById(id int) error {
 	var serviceErr error
-	service.txContext.Block(func() {
-		product := service.productRepository.FindById(id)
+	service.TxContext.Block(func() {
+		product := service.ProductRepository.FindById(id)
 		if product == nil {
 			serviceErr = err.NewProductNotFoundError(id)
 			return
 		}
-		service.productRepository.DeleteById(id)
+		service.ProductRepository.DeleteById(id)
 	})
 	return serviceErr
 }

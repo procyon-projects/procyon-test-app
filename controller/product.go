@@ -8,13 +8,11 @@ import (
 )
 
 type ProductController struct {
-	productService *service.ProductService
+	ProductService *service.ProductService `inject:""`
 }
 
-func NewProductController(productService *service.ProductService) ProductController {
-	return ProductController{
-		productService,
-	}
+func NewProductController() *ProductController {
+	return &ProductController{}
 }
 
 func (controller ProductController) RegisterHandlers(registry web.HandlerInfoRegistry) {
@@ -34,34 +32,34 @@ func (controller ProductController) RegisterHandlers(registry web.HandlerInfoReg
 }
 
 func (controller ProductController) GetAllProducts() (*web.ResponseEntity, error) {
-	products, err := controller.productService.FindAll()
+	products, err := controller.ProductService.FindAll()
 	return web.NewResponseEntity(
 		web.WithBody(mapper.ProductToProductDtoList(products)),
 	), err
 }
 
 func (controller ProductController) GetProductById(request *request.ProductGetRequest) (*web.ResponseEntity, error) {
-	product, err := controller.productService.FindById(request.PathVariables.ProductId)
+	product, err := controller.ProductService.FindById(request.PathVariables.ProductId)
 	return web.NewResponseEntity(
 		web.WithBody(mapper.ProductToProductDto(product)),
 	), err
 }
 
 func (controller ProductController) CreateProduct(request *request.ProductCreateRequest) (*web.ResponseEntity, error) {
-	product, err := controller.productService.Save(mapper.ProductCreateRequestToProductModel(request))
+	product, err := controller.ProductService.Save(mapper.ProductCreateRequestToProductModel(request))
 	return web.NewResponseEntity(
 		web.WithBody(mapper.ProductToProductDto(product)),
 	), err
 }
 
 func (controller ProductController) UpdateProduct(request *request.ProductUpdateRequest) (*web.ResponseEntity, error) {
-	product, err := controller.productService.Update(request.PathVariables.ProductId, mapper.ProductUpdateRequestToProductModel(request))
+	product, err := controller.ProductService.Update(request.PathVariables.ProductId, mapper.ProductUpdateRequestToProductModel(request))
 	return web.NewResponseEntity(
 		web.WithBody(mapper.ProductToProductDto(product)),
 	), err
 }
 
 func (controller ProductController) DeleteProduct(request *request.ProductDeleteRequest) (*web.ResponseEntity, error) {
-	err := controller.productService.DeleteById(request.PathVariables.ProductId)
+	err := controller.ProductService.DeleteById(request.PathVariables.ProductId)
 	return web.NewResponseEntity(), err
 }
