@@ -15,18 +15,18 @@ func NewProductController() *ProductController {
 	return &ProductController{}
 }
 
-func (controller ProductController) RegisterHandlers(registry web.HandlerInfoRegistry) {
+func (controller ProductController) RegisterHandlers(registry web.HandlerRegistry) {
 	registry.RegisterGroup("/api/v1/products",
-		web.NewHandlerInfo(controller.GetAllProducts, web.WithPath("/")),
-		web.NewHandlerInfo(controller.GetProductById, web.WithPath("/{id}")),
-		web.NewHandlerInfo(controller.CreateProduct,
-			web.WithPath("/"), web.WithMethod(web.HttpMethodPost),
+		web.NewHandler(controller.GetAllProducts, web.WithPath("/")),
+		web.NewHandler(controller.GetProductById, web.WithPath("/{id}")),
+		web.NewHandler(controller.CreateProduct,
+			web.WithPath("/"), web.WithMethod(web.RequestMethodPost),
 		),
-		web.NewHandlerInfo(controller.UpdateProduct,
-			web.WithPath("/{id}"), web.WithMethod(web.HttpMethodPost),
+		web.NewHandler(controller.UpdateProduct,
+			web.WithPath("/{id}"), web.WithMethod(web.RequestMethodPost),
 		),
-		web.NewHandlerInfo(controller.DeleteProduct,
-			web.WithMethod("/{id}"), web.WithMethod(web.HttpMethodDelete),
+		web.NewHandler(controller.DeleteProduct,
+			web.WithMethod("/{id}"), web.WithMethod(web.RequestMethodDelete),
 		),
 	)
 }
