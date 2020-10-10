@@ -16,22 +16,22 @@ func (repository ProductRepository) GetRepositoryMetadata() context.RepositoryMe
 	return context.RepositoryMetadata{}
 }
 
-func (repository ProductRepository) FindAll() []*model.Product {
+func (repository ProductRepository) FindAll(ctx context.Context) []*model.Product {
 	return nil
 }
 
-func (repository ProductRepository) FindById(id int) *model.Product {
+func (repository ProductRepository) FindById(ctx context.Context, id int) *model.Product {
 	return nil
 }
 
-func (repository ProductRepository) Save(product *model.Product) *model.Product {
+func (repository ProductRepository) Save(ctx context.Context, product *model.Product) *model.Product {
 	return nil
 }
 
-func (repository ProductRepository) Update(product *model.Product) *model.Product {
+func (repository ProductRepository) Update(ctx context.Context, product *model.Product) *model.Product {
 	return nil
 }
 
-func (repository ProductRepository) DeleteById(id int) {
+func (repository ProductRepository) DeleteById(ctx context.Context, id int) {
 
 }

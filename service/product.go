@@ -9,31 +9,35 @@ import (
 )
 
 type ProductService struct {
-	ProductRepository *repository.ProductRepository `inject:""`
-	TxContext         tx.TransactionalContext       `inject:""`
+	productRepository    repository.ProductRepository
+	transactionalContext tx.TransactionalContext
 }
 
-func NewProductService() *ProductService {
-	return &ProductService{}
+func NewProductService(productRepository repository.ProductRepository,
+	transactionalContext tx.TransactionalContext) *ProductService {
+	return &ProductService{
+		productRepository,
+		transactionalContext,
+	}
 }
 
 func (service ProductService) GetServiceMetadata() context.ServiceMetadata {
 	return context.ServiceMetadata{}
 }
 
-func (service ProductService) FindAll() ([]*model.Product, error) {
+func (service ProductService) FindAll(ctx context.Context) ([]*model.Product, error) {
 	var products []*model.Product
-	service.TxContext.Block(func() {
-		products = service.ProductRepository.FindAll()
+	service.transactionalContext.Block(ctx, func() {
+		products = service.productRepository.FindAll(ctx)
 	})
 	return products, nil
 }
 
-func (service ProductService) FindById(id int) (*model.Product, error) {
+func (service ProductService) FindById(ctx context.Context, id int) (*model.Product, error) {
 	var serviceErr error
 	var product *model.Product
-	service.TxContext.Block(func() {
-		product = service.ProductRepository.FindById(id)
+	service.transactionalContext.Block(ctx, func() {
+		product = service.productRepository.FindById(ctx, id)
 		if product == nil {
 			serviceErr = err.NewProductNotFoundError(id)
 			return
@@ -42,37 +46,37 @@ func (service ProductService) FindById(id int) (*model.Product, error) {
 	return product, serviceErr
 }
 
-func (service ProductService) Save(product *model.Product) (*model.Product, error) {
+func (service ProductService) Save(ctx context.Context, product *model.Product) (*model.Product, error) {
 	var savedProduct *model.Product
-	service.TxContext.Block(func() {
-		savedProduct = service.ProductRepository.Save(product)
+	service.transactionalContext.Block(ctx, func() {
+		savedProduct = service.productRepository.Save(ctx, product)
 	})
 	return savedProduct, nil
 }
 
-func (service ProductService) Update(id int, updatedProduct *model.Product) (*model.Product, error) {
+func (service ProductService) Update(ctx context.Context, id int, updatedProduct *model.Product) (*model.Product, error) {
 	var serviceErr error
 	var result *model.Product
-	service.TxContext.Block(func() {
-		product := service.ProductRepository.FindById(id)
+	service.transactionalContext.Block(ctx, func() {
+		product := service.productRepository.FindById(ctx, id)
 		if product == nil {
 			serviceErr = err.NewProductNotFoundError(id)
 			return
 		}
-		result = service.ProductRepository.Update(updatedProduct)
+		result = service.productRepository.Update(ctx, updatedProduct)
 	})
 	return result, serviceErr
 }
 
-func (service ProductService) DeleteById(id int) error {
+func (service ProductService) DeleteById(ctx context.Context, id int) error {
 	var serviceErr error
-	service.TxContext.Block(func() {
-		product := service.ProductRepository.FindById(id)
+	service.transactionalContext.Block(ctx, func() {
+		product := service.productRepository.FindById(ctx, id)
 		if product == nil {
 			serviceErr = err.NewProductNotFoundError(id)
 			return
 		}
-		service.ProductRepository.DeleteById(id)
+		service.productRepository.DeleteById(ctx, id)
 	})
 	return serviceErr
 }
