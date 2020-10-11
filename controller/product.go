@@ -52,29 +52,41 @@ func (controller ImpProductController) GetAllProducts(ctx context.Context) (*web
 func (controller ImpProductController) GetProductById(ctx context.Context,
 	request *request.ProductGetRequest) (*web.ResponseEntity, error) {
 	product, err := controller.productService.FindById(ctx, request.PathVariables.ProductId)
+	if err != nil {
+		return nil, err
+	}
 	return web.NewResponseEntity(
 		web.WithBody(mapper.ProductToProductDto(product)),
-	), err
+	), nil
 }
 
 func (controller ImpProductController) CreateProduct(ctx context.Context,
 	request *request.ProductCreateRequest) (*web.ResponseEntity, error) {
 	product, err := controller.productService.Save(ctx, mapper.ProductCreateRequestToProductModel(request))
+	if err != nil {
+		return nil, err
+	}
 	return web.NewResponseEntity(
 		web.WithBody(mapper.ProductToProductDto(product)),
-	), err
+	), nil
 }
 
 func (controller ImpProductController) UpdateProduct(ctx context.Context,
 	request *request.ProductUpdateRequest) (*web.ResponseEntity, error) {
 	product, err := controller.productService.Update(ctx, request.PathVariables.ProductId, mapper.ProductUpdateRequestToProductModel(request))
+	if err != nil {
+		return nil, err
+	}
 	return web.NewResponseEntity(
 		web.WithBody(mapper.ProductToProductDto(product)),
-	), err
+	), nil
 }
 
 func (controller ImpProductController) DeleteProduct(ctx context.Context,
 	request *request.ProductDeleteRequest) (*web.ResponseEntity, error) {
 	err := controller.productService.DeleteById(ctx, request.PathVariables.ProductId)
-	return web.NewResponseEntity(), err
+	if err != nil {
+		return nil, err
+	}
+	return web.NewResponseEntity(), nil
 }
