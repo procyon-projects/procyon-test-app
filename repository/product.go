@@ -5,33 +5,41 @@ import (
 	"github.com/procyon-projects/procyon-test-app/model"
 )
 
-type ProductRepository struct {
+type ProductRepository interface {
+	FindAll(ctx context.Context) []*model.Product
+	FindById(ctx context.Context, id int) *model.Product
+	Save(ctx context.Context, product *model.Product) *model.Product
+	Update(ctx context.Context, product *model.Product) *model.Product
+	DeleteById(ctx context.Context, id int)
 }
 
-func NewProductRepository() ProductRepository {
-	return ProductRepository{}
+type ImpProductRepository struct {
 }
 
-func (repository ProductRepository) GetRepositoryMetadata() context.RepositoryMetadata {
+func NewProductRepository() ImpProductRepository {
+	return ImpProductRepository{}
+}
+
+func (repository ImpProductRepository) GetRepositoryMetadata() context.RepositoryMetadata {
 	return context.RepositoryMetadata{}
 }
 
-func (repository ProductRepository) FindAll(ctx context.Context) []*model.Product {
+func (repository ImpProductRepository) FindAll(ctx context.Context) []*model.Product {
 	return nil
 }
 
-func (repository ProductRepository) FindById(ctx context.Context, id int) *model.Product {
+func (repository ImpProductRepository) FindById(ctx context.Context, id int) *model.Product {
 	return nil
 }
 
-func (repository ProductRepository) Save(ctx context.Context, product *model.Product) *model.Product {
+func (repository ImpProductRepository) Save(ctx context.Context, product *model.Product) *model.Product {
 	return nil
 }
 
-func (repository ProductRepository) Update(ctx context.Context, product *model.Product) *model.Product {
+func (repository ImpProductRepository) Update(ctx context.Context, product *model.Product) *model.Product {
 	return nil
 }
 
-func (repository ProductRepository) DeleteById(ctx context.Context, id int) {
+func (repository ImpProductRepository) DeleteById(ctx context.Context, id int) {
 
 }
