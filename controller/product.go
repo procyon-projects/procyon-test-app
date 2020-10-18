@@ -37,7 +37,7 @@ func (controller ImpProductController) RegisterHandlers(registry web.HandlerRegi
 			web.WithPath("/{id}"), web.WithMethod(web.RequestMethodPost),
 		),
 		web.NewHandler(controller.DeleteProduct,
-			web.WithMethod("/{id}"), web.WithMethod(web.RequestMethodDelete),
+			web.WithPath("/{id}"), web.WithMethod(web.RequestMethodDelete),
 		),
 	)
 }

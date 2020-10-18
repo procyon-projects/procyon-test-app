@@ -22,8 +22,8 @@ type ImpProductService struct {
 }
 
 func NewProductService(productRepository repository.ProductRepository,
-	transactionalContext tx.TransactionalContext) *ImpProductService {
-	return &ImpProductService{
+	transactionalContext tx.TransactionalContext) ImpProductService {
+	return ImpProductService{
 		productRepository,
 		transactionalContext,
 	}
