@@ -17,13 +17,16 @@ type ProductService interface {
 }
 
 type ImpProductService struct {
+	logger               context.Logger
 	productRepository    repository.ProductRepository
 	transactionalContext tx.TransactionalContext
 }
 
-func NewProductService(productRepository repository.ProductRepository,
+func NewProductService(logger context.Logger,
+	productRepository repository.ProductRepository,
 	transactionalContext tx.TransactionalContext) ImpProductService {
 	return ImpProductService{
+		logger,
 		productRepository,
 		transactionalContext,
 	}

@@ -17,11 +17,13 @@ type ProductController interface {
 }
 
 type ImpProductController struct {
+	logger         context.Logger
 	productService service.ProductService
 }
 
-func NewProductController(productService service.ProductService) ImpProductController {
+func NewProductController(logger context.Logger, productService service.ProductService) ImpProductController {
 	return ImpProductController{
+		logger,
 		productService,
 	}
 }
