@@ -3,11 +3,14 @@ module github.com/procyon-projects/procyon-test-app
 go 1.13
 
 require (
-	github.com/codnect/goo v0.4.0-beta
-	github.com/procyon-projects/procyon v0.0.0-20201018231721-d3622186d422
-	github.com/procyon-projects/procyon-configure v0.0.0-20200608191434-6952f10ca1a1
-	github.com/procyon-projects/procyon-context v0.0.0-20201019232246-a5fde1e108ff
-	github.com/procyon-projects/procyon-core v0.0.0-20201017193804-1d6556a10010
+	github.com/codnect/go-one v0.0.0-20200119222923-a2229e1e905b
+	github.com/codnect/goo v1.0.0-beta
+	github.com/procyon-projects/procyon v0.0.0-20201022225601-dd83e3a32577
+	github.com/procyon-projects/procyon-configure v0.0.0-20201021214713-dac93aea8e92
+	github.com/procyon-projects/procyon-context v0.0.0-20201022212542-b851554dd452
+	github.com/procyon-projects/procyon-core v0.0.0-20201021203731-2284d09dafb4
 	github.com/procyon-projects/procyon-tx v0.0.0-20201016000821-b11747307e26
-	github.com/procyon-projects/procyon-web v0.0.0-20201016001601-f892caae44c9
+	github.com/procyon-projects/procyon-web v0.0.0-20201022214820-c6cadfc96435
+	golang.org/x/sys v0.0.0-20201022201747-fb209a7c41cd // indirect
+	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
