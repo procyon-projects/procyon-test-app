@@ -10,7 +10,7 @@ require (
 	github.com/procyon-projects/procyon-context v0.0.0-20201022212542-b851554dd452
 	github.com/procyon-projects/procyon-core v0.0.0-20201021203731-2284d09dafb4
 	github.com/procyon-projects/procyon-tx v0.0.0-20201016000821-b11747307e26
-	github.com/procyon-projects/procyon-web v0.0.0-20201023193328-7a8ce296f0d7
-	golang.org/x/sys v0.0.0-20201022201747-fb209a7c41cd // indirect
+	github.com/procyon-projects/procyon-web v0.0.0-20201026182701-6a17df9f9fa7
+	golang.org/x/sys v0.0.0-20201026163216-e075d9370641 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
