@@ -3,14 +3,15 @@ package repository
 import (
 	context "github.com/procyon-projects/procyon-context"
 	"github.com/procyon-projects/procyon-test-app/model"
+	web "github.com/procyon-projects/procyon-web"
 )
 
 type ProductRepository interface {
-	FindAll(ctx context.Context) []*model.Product
-	FindById(ctx context.Context, id int) *model.Product
-	Save(ctx context.Context, product *model.Product) *model.Product
-	Update(ctx context.Context, product *model.Product) *model.Product
-	DeleteById(ctx context.Context, id int)
+	FindAll(ctx *web.WebRequestContext) []*model.Product
+	FindById(ctx *web.WebRequestContext, id int) *model.Product
+	Save(ctx *web.WebRequestContext, product *model.Product) *model.Product
+	Update(ctx *web.WebRequestContext, product *model.Product) *model.Product
+	DeleteById(ctx *web.WebRequestContext, id int)
 }
 
 type ImpProductRepository struct {
@@ -27,22 +28,22 @@ func (repository ImpProductRepository) GetRepositoryMetadata() context.Repositor
 	return context.RepositoryMetadata{}
 }
 
-func (repository ImpProductRepository) FindAll(ctx context.Context) []*model.Product {
+func (repository ImpProductRepository) FindAll(ctx *web.WebRequestContext) []*model.Product {
 	return nil
 }
 
-func (repository ImpProductRepository) FindById(ctx context.Context, id int) *model.Product {
+func (repository ImpProductRepository) FindById(ctx *web.WebRequestContext, id int) *model.Product {
 	return nil
 }
 
-func (repository ImpProductRepository) Save(ctx context.Context, product *model.Product) *model.Product {
+func (repository ImpProductRepository) Save(ctx *web.WebRequestContext, product *model.Product) *model.Product {
 	return nil
 }
 
-func (repository ImpProductRepository) Update(ctx context.Context, product *model.Product) *model.Product {
+func (repository ImpProductRepository) Update(ctx *web.WebRequestContext, product *model.Product) *model.Product {
 	return nil
 }
 
-func (repository ImpProductRepository) DeleteById(ctx context.Context, id int) {
+func (repository ImpProductRepository) DeleteById(ctx *web.WebRequestContext, id int) {
 
 }

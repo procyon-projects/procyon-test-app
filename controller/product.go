@@ -3,17 +3,16 @@ package controller
 import (
 	context "github.com/procyon-projects/procyon-context"
 	"github.com/procyon-projects/procyon-test-app/model/mapper"
-	"github.com/procyon-projects/procyon-test-app/model/request"
 	"github.com/procyon-projects/procyon-test-app/service"
 	web "github.com/procyon-projects/procyon-web"
 )
 
 type ProductController interface {
-	GetAllProducts(ctx context.Context) (*web.ResponseEntity, error)
-	GetProductById(ctx context.Context, request *request.ProductGetRequest) (*web.ResponseEntity, error)
-	CreateProduct(ctx context.Context, request *request.ProductCreateRequest) (*web.ResponseEntity, error)
-	UpdateProduct(ctx context.Context, request *request.ProductUpdateRequest) (*web.ResponseEntity, error)
-	DeleteProduct(ctx context.Context, request *request.ProductDeleteRequest) (*web.ResponseEntity, error)
+	GetAllProducts(context *web.WebRequestContext)
+	GetProductById(context *web.WebRequestContext)
+	CreateProduct(context *web.WebRequestContext)
+	UpdateProduct(context *web.WebRequestContext)
+	DeleteProduct(context *web.WebRequestContext)
 }
 
 type ImpProductController struct {
@@ -29,66 +28,43 @@ func NewProductController(logger context.Logger, productService service.ProductS
 }
 
 func (controller ImpProductController) RegisterHandlers(registry web.HandlerRegistry) {
-	registry.RegisterGroup("/api/v1/products",
-		web.NewHandler(controller.GetAllProducts, web.WithPath("/")),
-		web.NewHandler(controller.GetProductById, web.WithPath("/{id}")),
-		web.NewHandler(controller.CreateProduct,
-			web.WithPath("/"), web.WithMethod(web.RequestMethodPost),
+	registry.RegisterGroup("/api/products",
+		web.NewHandler(controller.GetAllProducts),
+		web.NewHandler(
+			controller.GetProductById, web.WithPath("/{productId}"),
 		),
-		web.NewHandler(controller.UpdateProduct,
-			web.WithPath("/{id}"), web.WithMethod(web.RequestMethodPost),
+		web.NewHandler(
+			controller.CreateProduct, web.WithMethod(web.RequestMethodPost),
 		),
-		web.NewHandler(controller.DeleteProduct,
-			web.WithPath("/{id}"), web.WithMethod(web.RequestMethodDelete),
+		web.NewHandler(
+			controller.UpdateProduct, web.WithPath("/{productId}"), web.WithMethod(web.RequestMethodPut),
+		),
+		web.NewHandler(
+			controller.DeleteProduct, web.WithPath("/{productId}"), web.WithMethod(web.RequestMethodDelete),
 		),
 	)
 }
 
-func (controller ImpProductController) GetAllProducts(ctx context.Context) (*web.ResponseEntity, error) {
-	products, err := controller.productService.FindAll(ctx)
-	return web.NewResponseEntity(
-		web.WithBody(mapper.ProductToProductDtoList(products)),
-	), err
+func (controller ImpProductController) GetAllProducts(context *web.WebRequestContext) {
+	products := controller.productService.FindAll(context)
+	context.SetBody(mapper.ProductToProductDtoList(products))
 }
 
-func (controller ImpProductController) GetProductById(ctx context.Context,
-	request *request.ProductGetRequest) (*web.ResponseEntity, error) {
-	product, err := controller.productService.FindById(ctx, request.PathVariables.ProductId)
-	if err != nil {
-		return nil, err
-	}
-	return web.NewResponseEntity(
-		web.WithBody(mapper.ProductToProductDto(product)),
-	), nil
+func (controller ImpProductController) GetProductById(context *web.WebRequestContext) {
+	product := controller.productService.FindById(context, 0)
+	context.SetBody(mapper.ProductToProductDto(product))
 }
 
-func (controller ImpProductController) CreateProduct(ctx context.Context,
-	request *request.ProductCreateRequest) (*web.ResponseEntity, error) {
-	product, err := controller.productService.Save(ctx, mapper.ProductCreateRequestToProductModel(request))
-	if err != nil {
-		return nil, err
-	}
-	return web.NewResponseEntity(
-		web.WithBody(mapper.ProductToProductDto(product)),
-	), nil
+func (controller ImpProductController) CreateProduct(context *web.WebRequestContext) {
+	product := controller.productService.Save(context, mapper.ProductUpdateRequestToProductModel(nil))
+	context.SetBody(mapper.ProductToProductDto(product))
 }
 
-func (controller ImpProductController) UpdateProduct(ctx context.Context,
-	request *request.ProductUpdateRequest) (*web.ResponseEntity, error) {
-	product, err := controller.productService.Update(ctx, request.PathVariables.ProductId, mapper.ProductUpdateRequestToProductModel(request))
-	if err != nil {
-		return nil, err
-	}
-	return web.NewResponseEntity(
-		web.WithBody(mapper.ProductToProductDto(product)),
-	), nil
+func (controller ImpProductController) UpdateProduct(context *web.WebRequestContext) {
+	product := controller.productService.Update(context, 0, mapper.ProductUpdateRequestToProductModel(nil))
+	context.SetBody(mapper.ProductToProductDto(product))
 }
 
-func (controller ImpProductController) DeleteProduct(ctx context.Context,
-	request *request.ProductDeleteRequest) (*web.ResponseEntity, error) {
-	err := controller.productService.DeleteById(ctx, request.PathVariables.ProductId)
-	if err != nil {
-		return nil, err
-	}
-	return web.NewResponseEntity(), nil
+func (controller ImpProductController) DeleteProduct(context *web.WebRequestContext) {
+	controller.productService.DeleteById(context, 0)
 }
