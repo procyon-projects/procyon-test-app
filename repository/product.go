@@ -15,13 +15,10 @@ type ProductRepository interface {
 }
 
 type ImpProductRepository struct {
-	logger context.Logger
 }
 
-func NewProductRepository(logger context.Logger) ImpProductRepository {
-	return ImpProductRepository{
-		logger,
-	}
+func NewProductRepository() ImpProductRepository {
+	return ImpProductRepository{}
 }
 
 func (repository ImpProductRepository) GetRepositoryMetadata() context.RepositoryMetadata {

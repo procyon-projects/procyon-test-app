@@ -10,6 +10,6 @@ require (
 	github.com/procyon-projects/procyon-context v0.0.0-20201120215240-f357d790d7e1
 	github.com/procyon-projects/procyon-core v0.0.0-20201117233742-baf8f01746bc
 	github.com/procyon-projects/procyon-tx v0.0.0-20201016000821-b11747307e26
-	github.com/procyon-projects/procyon-web v0.0.0-20201121153930-6d42a957bd5a
+	github.com/procyon-projects/procyon-web v0.0.0-20201122191514-69629b45d4e2
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
