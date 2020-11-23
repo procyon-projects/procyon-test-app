@@ -3,7 +3,6 @@ package service
 import (
 	configure "github.com/procyon-projects/procyon-configure"
 	context "github.com/procyon-projects/procyon-context"
-	errors "github.com/procyon-projects/procyon-test-app/err"
 	"github.com/procyon-projects/procyon-test-app/model"
 	"github.com/procyon-projects/procyon-test-app/repository"
 	tx "github.com/procyon-projects/procyon-tx"
@@ -36,48 +35,50 @@ func (service ImpProductService) GetServiceMetadata() context.ServiceMetadata {
 }
 
 func (service ImpProductService) FindAll(ctx *web.WebRequestContext) []*model.Product {
-	products, _ := service.transactionalContext.Block(ctx, func() (interface{}, error) {
+	/*products, _ := service.transactionalContext.Block(ctx, func() (interface{}, error) {
 		return service.productRepository.FindAll(ctx), nil
 	})
-	return products.([]*model.Product)
+	return products.([]*model.Product)*/
+	return nil
 }
 
 func (service ImpProductService) FindById(ctx *web.WebRequestContext, id int) *model.Product {
-	result, _ := service.transactionalContext.Block(ctx, func() (interface{}, error) {
+	/*result, _ := service.transactionalContext.Block(ctx, func() (interface{}, error) {
 		product := service.productRepository.FindById(ctx, id)
 		if product == nil {
 			ctx.ThrowError(errors.NewProductNotFoundError(id))
 		}
 		return product, nil
 	})
-	return result.(*model.Product)
+	return result.(*model.Product)*/
+	return nil
 }
 
 func (service ImpProductService) Save(ctx *web.WebRequestContext, product *model.Product) *model.Product {
-	result, _ := service.transactionalContext.Block(ctx, func() (interface{}, error) {
+	/*result, _ := service.transactionalContext.Block(ctx, func() (interface{}, error) {
 		return service.productRepository.Save(ctx, product), nil
-	})
-	return result.(*model.Product)
+	})*/
+	return product
 }
 
 func (service ImpProductService) Update(ctx *web.WebRequestContext, id int, updatedProduct *model.Product) *model.Product {
-	result, _ := service.transactionalContext.Block(ctx, func() (interface{}, error) {
+	/*result, _ := service.transactionalContext.Block(ctx, func() (interface{}, error) {
 		product := service.productRepository.FindById(ctx, id)
 		if product == nil {
 			ctx.ThrowError(errors.NewProductNotFoundError(id))
 		}
 		return service.productRepository.Update(ctx, updatedProduct), nil
-	})
-	return result.(*model.Product)
+	})*/
+	return updatedProduct
 }
 
 func (service ImpProductService) DeleteById(ctx *web.WebRequestContext, id int) {
-	service.transactionalContext.Block(ctx, func() (interface{}, error) {
+	/*service.transactionalContext.Block(ctx, func() (interface{}, error) {
 		product := service.productRepository.FindById(ctx, id)
 		if product == nil {
 			ctx.ThrowError(errors.NewProductNotFoundError(id))
 		}
 		service.productRepository.DeleteById(ctx, id)
 		return nil, nil
-	})
+	})*/
 }

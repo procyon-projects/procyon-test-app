@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"github.com/procyon-projects/procyon-test-app/model"
 	"github.com/procyon-projects/procyon-test-app/model/mapper"
+	"github.com/procyon-projects/procyon-test-app/model/request"
 	"github.com/procyon-projects/procyon-test-app/service"
 	web "github.com/procyon-projects/procyon-web"
 )
@@ -30,47 +30,56 @@ func (controller ImpProductController) RegisterHandlers(registry web.HandlerRegi
 		web.NewHandler(controller.GetAllProducts),
 		web.NewHandler(
 			controller.GetProductById, web.WithPath("/:productId"),
+			web.WithRequestObject(request.ProductGetRequest{}),
 		),
 		web.NewHandler(
-			controller.CreateProduct, web.WithMethod(web.RequestMethodPost),
+			controller.CreateProduct,
+			web.WithMethod(web.RequestMethodPost),
+			web.WithRequestObject(request.ProductCreateRequest{}),
 		),
 		web.NewHandler(
-			controller.UpdateProduct, web.WithPath("/:productId"), web.WithMethod(web.RequestMethodPut),
+			controller.UpdateProduct,
+			web.WithPath("/:productId"),
+			web.WithMethod(web.RequestMethodPut),
+			web.WithRequestObject(request.ProductUpdateRequest{}),
 		),
 		web.NewHandler(
-			controller.DeleteProduct, web.WithPath("/:productId"), web.WithMethod(web.RequestMethodDelete),
+			controller.DeleteProduct,
+			web.WithPath("/:productId"),
+			web.WithMethod(web.RequestMethodDelete),
+			web.WithRequestObject(request.ProductDeleteRequest{}),
 		),
 	)
 }
 
 func (controller ImpProductController) GetAllProducts(context *web.WebRequestContext) {
-	//products := controller.productService.FindAll(context)
-	products := []model.Product{
-		{"Notebook", 0},
-		{"Phone", 1},
-	}
+	products := controller.productService.FindAll(context)
 	context.SetBody(mapper.ProductToProductDtoList(products))
 }
 
 func (controller ImpProductController) GetProductById(context *web.WebRequestContext) {
-	//product := controller.productService.FindById(context, 0)
-	product := model.Product{
-		Name:     "SSD",
-		Category: 3,
-	}
+	req := &request.ProductGetRequest{}
+	context.GetRequest(req)
+	product := controller.productService.FindById(context, req.PathVariables.ProductId)
 	context.SetBody(mapper.ProductToProductDto(product))
 }
 
 func (controller ImpProductController) CreateProduct(context *web.WebRequestContext) {
-	//product := controller.productService.Save(context, mapper.ProductUpdateRequestToProductModel(nil))
-	//context.SetBody(mapper.ProductToProductDto(product))
+	req := &request.ProductCreateRequest{}
+	context.GetRequest(req)
+	product := controller.productService.Save(context, mapper.ProductCreateRequestToProductModel(req))
+	context.SetBody(mapper.ProductToProductDto(product))
 }
 
 func (controller ImpProductController) UpdateProduct(context *web.WebRequestContext) {
-	//product := controller.productService.Update(context, 0, mapper.ProductUpdateRequestToProductModel(nil))
-	//context.SetBody(mapper.ProductToProductDto(product))
+	req := &request.ProductUpdateRequest{}
+	context.GetRequest(req)
+	product := controller.productService.Update(context, req.PathVariables.ProductId, mapper.ProductUpdateRequestToProductModel(req))
+	context.SetBody(mapper.ProductToProductDto(product))
 }
 
 func (controller ImpProductController) DeleteProduct(context *web.WebRequestContext) {
-	//controller.productService.DeleteById(context, 0)
+	req := &request.ProductDeleteRequest{}
+	context.GetRequest(req)
+	controller.productService.DeleteById(context, req.PathVariables.ProductId)
 }
