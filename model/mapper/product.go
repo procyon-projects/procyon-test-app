@@ -28,7 +28,7 @@ func ProductToProductDto(product *model.Product) response.ProductDto {
 	}
 }
 
-func ProductToProductDtoList(products []*model.Product) []response.ProductDto {
+func ProductsToProductDtoList(products []*model.Product) []response.ProductDto {
 	list := make([]response.ProductDto, len(products))
 	for index, product := range products {
 		list[index] = ProductToProductDto(product)
