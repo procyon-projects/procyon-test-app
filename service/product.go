@@ -2,7 +2,6 @@ package service
 
 import (
 	configure "github.com/procyon-projects/procyon-configure"
-	context "github.com/procyon-projects/procyon-context"
 	"github.com/procyon-projects/procyon-test-app/model"
 	"github.com/procyon-projects/procyon-test-app/repository"
 	tx "github.com/procyon-projects/procyon-tx"
@@ -28,10 +27,6 @@ func NewProductService(productRepository repository.ProductRepository,
 		productRepository,
 		transactionalContext,
 	}
-}
-
-func (service ImpProductService) GetServiceMetadata() context.ServiceMetadata {
-	return context.ServiceMetadata{}
 }
 
 func (service ImpProductService) FindAll(ctx *web.WebRequestContext) []*model.Product {

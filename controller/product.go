@@ -26,7 +26,7 @@ func NewProductController(productService service.ProductService) ImpProductContr
 }
 
 func (controller ImpProductController) RegisterHandlers(registry web.HandlerRegistry) {
-	registry.RegisterGroup("/api",
+	registry.RegisterGroup("/api/products",
 		web.Get(controller.GetAllProducts),
 		web.Get(
 			controller.GetProductById,

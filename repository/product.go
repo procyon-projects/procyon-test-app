@@ -1,7 +1,6 @@
 package repository
 
 import (
-	context "github.com/procyon-projects/procyon-context"
 	"github.com/procyon-projects/procyon-test-app/model"
 	web "github.com/procyon-projects/procyon-web"
 )
@@ -19,10 +18,6 @@ type ImpProductRepository struct {
 
 func NewProductRepository() ImpProductRepository {
 	return ImpProductRepository{}
-}
-
-func (repository ImpProductRepository) GetRepositoryMetadata() context.RepositoryMetadata {
-	return context.RepositoryMetadata{}
 }
 
 func (repository ImpProductRepository) FindAll(ctx *web.WebRequestContext) []*model.Product {
