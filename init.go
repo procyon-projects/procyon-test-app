@@ -8,10 +8,14 @@ import (
 )
 
 func init() {
-	/* Repositories */
-	core.Register(repository.NewProductRepository)
-	/* Services */
-	core.Register(service.NewProductService)
-	/* Controllers */
+	// controller
 	core.Register(controller.NewProductController)
+	// service
+	core.Register(service.NewProductService)
+	// repository
+	core.Register(repository.NewProductRepository)
+	// error handler
+	core.Register(NewErrorHandler)
+	// interceptor
+	core.Register(NewCustomInterceptor)
 }

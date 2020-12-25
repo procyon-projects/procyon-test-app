@@ -18,9 +18,15 @@ type ProductUpdateRequest struct {
 }
 
 type ProductGetRequest struct {
+	Params struct {
+		Query int `json:"query" yaml:"query"`
+	} `request:"param"`
 	PathVariables struct {
 		ProductId int `json:"productId" yaml:"productId"`
 	} `request:"path"`
+	Header struct {
+		ContentType string `json:"Content-Type" yaml:"Content-Type"`
+	} `request:"header"`
 }
 
 type ProductDeleteRequest struct {

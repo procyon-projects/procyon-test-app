@@ -52,32 +52,32 @@ func (controller ImpProductController) RegisterHandlers(registry web.HandlerRegi
 
 func (controller ImpProductController) GetAllProducts(context *web.WebRequestContext) {
 	products := controller.productService.FindAll(context)
-	context.Ok().SetBody(mapper.ProductsToProductDtoList(products))
+	context.Ok().SetModel(mapper.ProductsToProductDtoList(products))
 }
 
 func (controller ImpProductController) GetProductById(context *web.WebRequestContext) {
 	req := &request.ProductGetRequest{}
-	context.GetRequest(req)
+	context.BindRequest(req)
 	product := controller.productService.FindById(context, req.PathVariables.ProductId)
-	context.Ok().SetBody(mapper.ProductToProductDto(product))
+	context.Ok().SetModel(mapper.ProductToProductDto(product)).SetResponseContentType(web.MediaTypeApplicationJson)
 }
 
 func (controller ImpProductController) CreateProduct(context *web.WebRequestContext) {
 	req := &request.ProductCreateRequest{}
-	context.GetRequest(req)
+	context.BindRequest(req)
 	product := controller.productService.Save(context, mapper.ProductCreateRequestToProductModel(req))
-	context.Ok().SetBody(mapper.ProductToProductDto(product))
+	context.Ok().SetModel(mapper.ProductToProductDto(product))
 }
 
 func (controller ImpProductController) UpdateProduct(context *web.WebRequestContext) {
 	req := &request.ProductUpdateRequest{}
-	context.GetRequest(req)
+	context.BindRequest(req)
 	product := controller.productService.Update(context, req.PathVariables.ProductId, mapper.ProductUpdateRequestToProductModel(req))
-	context.Ok().SetBody(mapper.ProductToProductDto(product))
+	context.Ok().SetModel(mapper.ProductToProductDto(product))
 }
 
 func (controller ImpProductController) DeleteProduct(context *web.WebRequestContext) {
 	req := &request.ProductDeleteRequest{}
-	context.GetRequest(req)
+	context.BindRequest(req)
 	controller.productService.DeleteById(context, req.PathVariables.ProductId)
 }

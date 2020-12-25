@@ -34,7 +34,16 @@ func (service ImpProductService) FindAll(ctx *web.WebRequestContext) []*model.Pr
 		return service.productRepository.FindAll(ctx), nil
 	})
 	return products.([]*model.Product)*/
-	return nil
+	return []*model.Product{
+		{
+			Name:     "Product-1",
+			Category: 8,
+		},
+		{
+			Name:     "Product-2",
+			Category: 7,
+		},
+	}
 }
 
 func (service ImpProductService) FindById(ctx *web.WebRequestContext, id int) *model.Product {
@@ -46,7 +55,10 @@ func (service ImpProductService) FindById(ctx *web.WebRequestContext, id int) *m
 		return product, nil
 	})
 	return result.(*model.Product)*/
-	return nil
+	return &model.Product{
+		Name:     "Test Product",
+		Category: 1,
+	}
 }
 
 func (service ImpProductService) Save(ctx *web.WebRequestContext, product *model.Product) *model.Product {
